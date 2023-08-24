@@ -12,8 +12,63 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
-  name String?
+  user_id    Int      @id @default(autoincrement())
+  username   String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  pets       Pet[]
+}
+
+model Pet {
+  pet_id            Int      @id @default(autoincrement())
+  name              String
+  species           String
+  breed             String
+  color             String
+  age               Int
+  gender            String
+  description       String
+  medical_condition String
+  user_id           Int
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  applications      AdoptionApplication[]
+  characteristics   Characteristics[] // Many-to-many relationship
+  owner             User     @relation(fields: [user_id], references: [user_id])
+}
+
+model Characteristics {
+  characteristic_id   Int            @id @default(autoincrement())
+  children_friendly   String         @unique
+  house_trained       String
+  live_with_pets      String
+  good_with_commands  String
+  separation_anxiety  String
+  knows_tricks        String
+  indoor_preference   String
+  pets                Pet[]          // Many-to-many relationship
+}
+
+model AdoptionApplication {
+  application_id      Int      @id @default(autoincrement())
+  applicant_name      String
+  applicant_email     String
+  applicant_phone     String
+  pet_id              Int
+  application_status  String
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+  pet                 Pet      @relation(fields: [pet_id], references: [pet_id])
+}
+
+model Volunteer {
+  volunteer_id Int      @id @default(autoincrement())
+  name         String
+  email        String
+  phone        String
+  interests    String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 }
