@@ -8,8 +8,8 @@
         update: {},
         create: {
             email:'test@test.com',
-            name: "Test User",
-            password: "password"
+            username: "Test User",
+            password: "password",
         }
     })
     console.log({ user })
