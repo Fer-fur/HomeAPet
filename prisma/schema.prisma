@@ -18,7 +18,7 @@ model User {
   password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  pets       Pet[]    
+  // pets       Pet[]   
 }
 
 model Pet {
@@ -31,12 +31,12 @@ model Pet {
   gender            String
   description       String
   medical_condition String
-  user_id           Int
+  // user_id           Int
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
   applications      AdoptionApplication[]
   characteristics   Characteristics[] // Many-to-many relationship
-  owner             User     @relation(fields: [user_id], references: [user_id])
+  // owner             User     @relation(fields: [user_id], references: [user_id])
 }
 
 model Characteristics {

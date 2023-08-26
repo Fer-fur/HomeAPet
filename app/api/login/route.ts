@@ -22,7 +22,7 @@ export const POST = async (req: Request) => {
             }
         });
         return NextResponse.json({message: "Success: ", newUser}, {status: 201})
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json({message: "Error" , error}, {status: 500})
     }
 }
