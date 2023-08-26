@@ -18,7 +18,7 @@ model User {
   password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  pets       Pet[]
+  pets       Pet[]    
 }
 
 model Pet {
@@ -42,12 +42,12 @@ model Pet {
 model Characteristics {
   characteristic_id   Int            @id @default(autoincrement())
   children_friendly   String         @unique
-  house_trained       String
-  live_with_pets      String
-  good_with_commands  String
-  separation_anxiety  String
-  knows_tricks        String
-  indoor_preference   String
+  house_trained       String         @unique 
+  live_with_pets      String         @unique
+  good_with_commands  String         @unique
+  separation_anxiety  String         @unique
+  knows_tricks        String         @unique
+  indoor_preference   String         @unique
   pets                Pet[]          // Many-to-many relationship
 }
 
