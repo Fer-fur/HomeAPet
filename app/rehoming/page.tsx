@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import MultiStepForm from './components/MultiStepForm';
 
-const Rehoming = () => {
+const RehomingPage = () => {
   return (
     <div className='w-full h-screen max-h-fit flex lg:flex-row'>
         <div className='lg:basis-1/2 flex justify-center w-full items-center bg-gray-100'>
@@ -21,5 +21,5 @@ const Rehoming = () => {
   )
 }
 
-export default Rehoming
+export default RehomingPage
 

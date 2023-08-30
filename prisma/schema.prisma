@@ -5,20 +5,25 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// datasource db {
+//   provider = "postgresql"
+//   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+// }
+
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url      = env("DATABASE_URL")
 }
 
 model User {
   user_id    Int      @id @default(autoincrement())
-  username   String   @unique
+  username   String
   email      String   @unique
   password   String
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  // pets       Pet[]   
+  updated_at DateTime @default(now()) @updatedAt
+  pets       Pet[]   
 }
 
 model Pet {
@@ -31,12 +36,12 @@ model Pet {
   gender            String
   description       String
   medical_condition String
-  // user_id           Int
+  user_id           Int
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
   applications      AdoptionApplication[]
   characteristics   Characteristics[] // Many-to-many relationship
-  // owner             User     @relation(fields: [user_id], references: [user_id])
+  owner             User     @relation(fields: [user_id], references: [user_id])
 }
 
 model Characteristics {

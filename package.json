@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "prisma" : {
-    "seed" : "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.1.1",
@@ -17,16 +17,27 @@
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
+    "axios": "^1.5.0",
+    "bcrypt": "^5.1.1",
+    "cookie": "^0.5.0",
+    "debug": "^4.3.4",
     "embla-carousel": "^8.0.0-rc11",
     "embla-carousel-react": "^8.0.0-rc11",
+    "jsonwebtoken": "^9.0.1",
     "next": "13.4.12",
     "postcss": "8.4.27",
     "prisma": "^5.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
+    "supports-color": "^8.1.1",
     "tailwindcss": "3.3.3",
     "ts-node": "^10.9.1",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie": "^0.5.1",
+    "@types/jsonwebtoken": "^9.0.2"
   }
 }

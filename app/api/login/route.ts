@@ -1,28 +1,75 @@
-import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import bcrypt from 'bcrypt';
+import { sign } from "jsonwebtoken";
+import { jwt_token_name } from "@/constants";
+import jwt from 'jsonwebtoken';
 
-export const GET = async ( req: Request, res: Response) => {
-    try {
-        const allUsers = await prisma.user.findMany()
-        return NextResponse.json({ message: "Success: ", allUsers}, {status: 200})
-    } catch (error) {
-        return NextResponse.json({ message: "Error", error}, {status: 500})
-    }
-};
+export const POST = async (req : NextRequest) => {
 
-export const POST = async (req: Request) => {
+    const loginData = await req.json();
 
     try {
-        console.log("test");
-        const newUser = await prisma.user.create({
-            data: {
-                email: 'test2@test.com',
-                username: 'testtetst',
-                password: '123456',
-            }
+        // Check if email exists
+        const user = await prisma.user.findUnique({
+            where: { email: loginData.email},
+            select: { 
+                email: true, 
+                password: true
+            },
         });
-        return NextResponse.json({message: "Success: ", newUser}, {status: 201})
+
+        if (!user) {
+            return NextResponse.json(
+                { error: "Email not found."}, 
+                {status: 404}
+            )
+        }
+
+        // Check Password
+        const password = String(loginData.password);
+        const passwordResults = await bcrypt.compareSync(password, user.password);
+        
+        if (!passwordResults) {
+            return NextResponse.json(
+                {error: "Incorrect password."},
+                {status: 401}
+            )
+        }
+
+        // ---- Cleared Authentication ----
+
+        // Retrieve secret key for JWT 
+        const secret_key = process.env.JWT_SECRET_KEY;
+
+        // Check if secret_key is defined
+        if(!secret_key){
+            throw new Error('JWT_SECRET_KEY environment variable is not set.');
+        }
+
+        const payload = { user: {
+                                email: user.email,
+        }}
+        const token = jwt.sign( payload,
+                            secret_key,
+                            {expiresIn: '1d'});
+
+        const res = NextResponse.json(
+            {message: "Login Successfully.", user}, 
+            {status: 200 },
+        )
+
+        res.cookies.set(jwt_token_name, 
+                        token, 
+                        {
+                            httpOnly: true, 
+                            sameSite: 'strict',
+                        });
+
+        return res;
+
     } catch (error: any) {
+        console.log(error);
         return NextResponse.json({message: "Error" , error}, {status: 500})
     }
 }
