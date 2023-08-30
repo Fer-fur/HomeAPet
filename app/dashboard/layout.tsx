@@ -21,7 +21,9 @@ export default function DashBoardLayout({
 
     const getUserData = async () => {
         const { user, error } : UserDataResponse = await axios.post('/api/auth_token');
-    
+        
+        console.log(error);
+        
         // if unauthorized, redirect to login/register page
         if (error) {
             router.push("/login-register");
@@ -32,15 +34,6 @@ export default function DashBoardLayout({
     };
 
     useEffect(() => {
-        // (async () => {
-        //     const { user, error } = await getUserData();
-
-        //     // if unauthorized, redirect to login/register page
-        //     if (error) {
-        //         router.push("/login-register");
-        //         return;
-        //     }
-        // })();
         getUserData();
     }, [router])
 
@@ -60,20 +53,3 @@ export default function DashBoardLayout({
           </main>
     )
   }
-  
-//   const getUserData = async(): Promise<UserDataResponse> => {
-//     try {
-//         const userData = await axios.post('/api/auth_token');
-
-//         return {
-//             user: userData,
-//             error: null
-//         };
-//     } catch (err) {
-//         const error = err as AxiosError;
-//         return {
-//             user: null,
-//             error: error
-//         }
-//     }
-//   };
