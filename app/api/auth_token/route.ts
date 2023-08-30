@@ -11,8 +11,7 @@ export const POST = async() => {
     const token = userCookies.get(jwt_token_name);
 
     if (!token) {
-        // return NextResponse.json({message: "Unauthorized"}, {status: 401});
-        throw new Error("Unauthorized");
+        return NextResponse.json({message: "Unauthorized"}, {status: 401});
     }
 
     //Retrieve secret key for JWT 
@@ -36,7 +35,5 @@ export const POST = async() => {
         return NextResponse.json({message: "Unauthorized"}, {status: 401});
     }
     
-        
-    // console.log(decodedToken);
 
 }

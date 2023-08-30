@@ -20,17 +20,12 @@ export default function DashBoardLayout({
     const [authorized, setAuthorized] = useState(false);
 
     const getUserData = async () => {
-        const { user, error } : UserDataResponse = await axios.post('/api/auth_token');
-        
-        console.log(error);
-        
-        // if unauthorized, redirect to login/register page
-        if (error) {
+        try {
+            const { user, error } : UserDataResponse = await axios.post('/api/auth_token');
+            setAuthorized(true);
+        } catch (error) {
             router.push("/login-register");
-            return;
         }
-    
-        setAuthorized(true);
     };
 
     useEffect(() => {
