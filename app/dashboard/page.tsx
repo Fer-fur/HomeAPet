@@ -5,16 +5,15 @@ import DashboardContainer from "./components/DashboardContainer"
 
 const DashBoardPage = () => {
   return (
-    <div className=" container min-w-full">
+    <div className="min-w-screen mb-12">
         <Header content="Dashboard" />
-
-        <div className="flex flex-col justify-center w-screen gap-10">
+        <div className="flex flex-col justify-center gap-10">
 
             <DashboardContainer
                 border_color="border-green-600"
                 header_bg_color="bg-primary-green"
                 content_bg_color="bg-green-200"
-                header_title="Pets for Adoption"
+                header_title="Listed Pets For Rehoming"
             >
                 <div>
                     Rehomed Pet Listings
@@ -32,12 +31,17 @@ const DashBoardPage = () => {
                 </div>
             </DashboardContainer>
 
-            <div className="">
-                <h2 className="mb-4 font-bold text-xl font-poppins">Volunteer Status</h2>
-                <ul className="">
-                    {/* Volunteer status card component */}
-                </ul>
-            </div>
+            <DashboardContainer
+                border_color="border-orange-600"
+                header_bg_color="bg-orange-400"
+                content_bg_color="bg-orange-200"
+                header_title="Volunteer Application Status"
+            >
+                <div>
+                    Volunteer Application
+                </div>
+            </DashboardContainer>
+
         </div>
     </div>
   )

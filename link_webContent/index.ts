@@ -15,7 +15,7 @@ export const navbar_links = [
     {
         url: '/volunteer',
         title: 'Volunteer',
-        textColour: 'text-black'
+        textColour: 'text-orange-500'
     },
 ]
 

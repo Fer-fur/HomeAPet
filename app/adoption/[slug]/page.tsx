@@ -57,12 +57,12 @@ const AdoptionPetInfoPage = () => {
             <div className='flex flex-col lg:flex-row w-4/5 max-w-screen-2xl gap-8'>
                 <div className='relative basis-2/3 flex-col flex gap-10 lg:gap-18'>
                     <div className=' w-full bg-white py-6 rounded-lg shadow-md min-h-[256px] h-fit'>
-                        <div className='flex justify-start w-4/5 p-4'>
+                        <div className='flex justify-start w-4/5 p-6'>
                             <h2 className='font-bold text-2xl text-primary-green'>
                                 Reasons for rehoming
                             </h2>
                         </div>
-                        <div className='px-4'>
+                        <div className='px-6'>
                             <p>
                             Lost of job therefore could no longer afford to continue caring for this wonderful friend.
                             </p>

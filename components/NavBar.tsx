@@ -5,11 +5,17 @@ import { HiMenu } from 'react-icons/hi';
 import { RxCross2 } from 'react-icons/rx';
 import { CustomButton } from '.';
 import { navbar_links } from '@/link_webContent';
+import { useAuth } from '@/app/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const NavBar = () => {
 
+    const router = useRouter();
+
     // Using a useState as a boolean to toggle between the menu icon / cross icon for smaller viewports
     const [isOpen, setIsOpen] = useState(false);
+
+    const { isLoggedIn, login, logout } = useAuth(); 
 
     return (
         <header className='w-full sticky top-0 z-20 bg-white border border-gray-100'>
@@ -27,12 +33,15 @@ const NavBar = () => {
 
                 {/* Login button & Dropdown Menu for smaller viewports */}
                 <div className='flex h-16 lg:order-2 gap-2'>
-                    <Link href="/login-register">
-                        <CustomButton 
-                            content='Login / Register'
-                            btnStyle='text-black text-[18px] rounded-xl bg-white border-2 border-black hover:bg-black hover:text-white'
-                        />
-                    </Link>
+                    {/* <Link href="/login-register"> */}
+                    <CustomButton 
+                        content={isLoggedIn ? "Logout" : "Login / Register"}
+                        btnStyle={` text-[18px] rounded-xl  
+                                ${isLoggedIn ? "text-white bg-red-500 hover:bg-red-700" 
+                                : "text-black bg-white border-2 border-black hover:bg-black hover:text-white "}`}
+                        handleClick={isLoggedIn ? logout : () => {router.push("/login-register")}}
+                    />
+                    {/* </Link> */}
                     {/* Dropdown Menu */}
                     <div className='block lg:hidden'>
                         <button 

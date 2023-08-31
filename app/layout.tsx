@@ -2,6 +2,7 @@ import { Footer, NavBar } from '@/components'
 import { poppins, roboto_flex } from './fonts'
 import './globals.css'
 import type { Metadata } from 'next'
+import { AuthProvider } from './contexts/AuthContext'
 
 export const metadata: Metadata = {
   title: 'HomeAPet',
@@ -15,14 +16,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${poppins.variable} ${roboto_flex.variable}`}>
-      {/* <body className='bg-[url(/cool-background-2.svg)] bg-fix bg-cover'> */}
-       <body className='min-h-screen'> 
-        <NavBar />
-        <div>
-          {children}
-        </div>
-        <Footer />
-      </body>
+       <AuthProvider>
+        <body className='min-h-screen'> 
+            <NavBar />
+            <div>
+              {children}
+            </div>
+            <Footer />
+        </body>
+      </AuthProvider>
     </html>
   )
 }

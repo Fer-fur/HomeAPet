@@ -2,6 +2,7 @@
 import { useState, MouseEvent, FormEvent, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/contexts/AuthContext';
 
 interface FormData {
   username: string;
@@ -13,6 +14,8 @@ interface FormData {
 const Login_Register_Form = () => {
 
   const router = useRouter();
+
+  const {login} = useAuth();
 
   const initialFormData: FormData = {
     username: "",
@@ -43,7 +46,7 @@ const Login_Register_Form = () => {
       try {
         const result = await axios.post('api/login', formData);
         console.log('Login submitted successfully', result.data);
-        router.push('/');
+        login();
 
       } catch (error: any) {
         if (error.response && error.response.data && error.response.data.error) {
