@@ -3,7 +3,7 @@ import MultiStepForm from './components/MultiStepForm';
 
 const RehomingPage = () => {
   return (
-    <div className='w-full h-screen max-h-fit flex lg:flex-row'>
+    <div className='w-full min-h-screen max-h-fit flex lg:flex-row'>
         <div className='lg:basis-1/2 flex justify-center w-full items-center bg-gray-100'>
             <MultiStepForm />
         </div>

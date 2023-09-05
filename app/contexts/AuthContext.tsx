@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextValue {
   isLoggedIn: boolean;
@@ -35,7 +35,6 @@ export const AuthProvider = ({
     };
 
     const logout = async() => {
-        console.log("logout pressed");
         try {
             const {message, error} : AuthRemovalProps = await axios.post('/api/auth_remove');
             setIsLoggedIn(false);
@@ -44,6 +43,14 @@ export const AuthProvider = ({
             router.push("/login-register");
         }
     };
+
+    useEffect(() => {
+        const fetchAuthStatus = async () => {
+            const { data: { isLoggedIn } } = await axios.get('/api/auth_status');
+            setIsLoggedIn(isLoggedIn);
+        };
+        fetchAuthStatus();
+    }, []);
 
     return (
         <AuthContext.Provider value={

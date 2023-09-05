@@ -8,12 +8,12 @@ const TextFieldForm = ({fieldTitle,field_id, value, onChange} : FormTextFieldPro
       </label>
       <input
         type="text"
-        name={fieldTitle}
+        name={field_id}
         id = {field_id}
         defaultValue={value}
-        onChange={(e) => onChange}
+        onChange={onChange}
         required
-        className="basis-2/3 w-3/5 h-14 border-2 border-gray-400 px-3 rounded-lg focus:outline-none focus:border-0 focus:ring-4 focus:ring-blue-300"
+        className="basis-2/3 w-3/5 h-14 border-2 text-2xl border-gray-400 px-3 rounded-lg focus:outline-none focus:border-0 focus:ring-4 focus:ring-blue-300"
       />
     </div>
   );

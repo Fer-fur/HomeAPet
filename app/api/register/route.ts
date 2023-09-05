@@ -42,18 +42,3 @@ export const PUT = async (req: NextRequest) => {
     }
 }
 
-// export const PUT =async (req:Request) => {
-//     try {
-//         const updatedUser = await prisma.user.update({
-//             where:{
-//                 email: "test@test.com",
-//             },
-//             data: {
-//                 username: "Test User",
-//             }
-//         });
-//         return NextResponse.json({message: "Updated", updatedUser}, {status: 202})
-//     } catch (error) {
-//         return NextResponse.json({message: "Error" , error}, {status: 500})
-//     }
-// }

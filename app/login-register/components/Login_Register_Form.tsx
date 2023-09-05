@@ -37,7 +37,7 @@ const Login_Register_Form = () => {
   };
 
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // Prevent default form submission behaviour
     e.preventDefault();
 

@@ -9,10 +9,11 @@ const RadioFieldForm = ({fieldTitle,option_1,option_2,option_3, option_4, value,
         <div className='basis-2/3 flex justify-between text-center '>
             <input
                 type="radio"
-                name={fieldTitle}
+                name={field_id}
                 id={option_1}
+                checked={value === 'Male'}
                 value={option_1}
-                onChange={(e) => onChange}
+                onChange={onChange}
                 required
             />
             <label htmlFor={option_1} className="mr-4 w-18 text-3xl text-center">
@@ -20,10 +21,11 @@ const RadioFieldForm = ({fieldTitle,option_1,option_2,option_3, option_4, value,
             </label>
             <input
                 type="radio"
-                name={fieldTitle}
+                name={field_id}
                 id={option_2}
+                checked={value === 'Female'}
                 value={option_2}
-                onChange={(e) => onChange}
+                onChange={onChange}
                 required
             />
             <label htmlFor={option_2} className="mr-4 w-18 text-3xl text-center">
@@ -33,7 +35,7 @@ const RadioFieldForm = ({fieldTitle,option_1,option_2,option_3, option_4, value,
                 <>
                     <input
                         type="radio"
-                        name={fieldTitle}
+                        name={field_id}
                         id={option_3}
                         value={option_3}
                         onChange={(e) => onChange}
@@ -48,7 +50,7 @@ const RadioFieldForm = ({fieldTitle,option_1,option_2,option_3, option_4, value,
                 <>
                     <input
                         type="radio"
-                        name={fieldTitle}
+                        name={field_id}
                         id={option_4}
                         value={option_4}
                         onChange={(e) => onChange}

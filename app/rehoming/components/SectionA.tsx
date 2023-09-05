@@ -4,37 +4,50 @@ import TextFieldForm from "./TextFieldForm";
 import Link from "next/link";
 import RadioFieldForm from "./RadioFieldForm";
 
-const SectionA = ({ formData, handleFormInput, handleNext }: FormProps) => {
+const SectionA = ({ formData, handleFormInput, handleNext, formErrors }: FormProps) => {
   return (
     <div className="flex flex-col min-h-fit">
+
+      {/* Display error message for fields with error */}
+      {formErrors &&
+        (formErrors.A) && (
+          <div>
+            {Object.keys(formErrors.A).map((key: string) => (
+              <p key={key} className="bg-red-200 text-red-800 py-2 px-4 rounded text-xl text-center">
+                {(formErrors.A[key])}
+              </p>
+            ))}
+          </div>
+        )}
+
       <Header content="Pet Information" />
 
       <TextFieldForm
         fieldTitle="Pet Name: "
-        field_id= "Name"
+        field_id= "name"
         value={formData.name}
-        onChange={() => handleFormInput}
+        onChange={(e) => handleFormInput(e)}
       />
 
       <TextFieldForm
-        fieldTitle="Type of Animal: "
-        field_id = "Type"
+        fieldTitle="Animal Species: "
+        field_id = "type"
         value={formData.type}
-        onChange={() => handleFormInput}
+        onChange={(e) => handleFormInput(e)}
       />
 
       <TextFieldForm
         fieldTitle="Breed: "
-        field_id="Breed"
+        field_id="breed"
         value={formData.breed}
-        onChange={() => handleFormInput}
+        onChange={(e) => handleFormInput(e)}
       />
 
       <TextFieldForm
         fieldTitle="Fur Color: "
-        field_id="Color"
+        field_id="color"
         value={formData.color}
-        onChange={() => handleFormInput}
+        onChange={(e) => handleFormInput(e)}
       />
 
       <RadioFieldForm
@@ -42,15 +55,15 @@ const SectionA = ({ formData, handleFormInput, handleNext }: FormProps) => {
         option_1="Male"
         option_2="Female"
         value={formData.gender}
-        onChange={() => handleFormInput}
-        field_id="Gender"
+        onChange={(e) => handleFormInput(e)}
+        field_id="gender"
       />
 
       <TextFieldForm
         fieldTitle="Age: "
-        field_id="Age"
+        field_id="age"
         value={formData.age}
-        onChange={() => handleFormInput}
+        onChange={(e) => handleFormInput(e)}
       />
 
       <div className="my-3 flex justify-end mr-12 mb-6">

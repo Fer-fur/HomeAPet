@@ -32,28 +32,32 @@ model Pet {
   species           String
   breed             String
   color             String
-  age               Int
+  age               String
   gender            String
   description       String
   medical_condition String
+  petURL            String
   user_id           Int
   created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt
+  updated_at        DateTime @default(now()) @updatedAt 
   applications      AdoptionApplication[]
-  characteristics   Characteristics[] // Many-to-many relationship
+  characteristics   Characteristics[] 
   owner             User     @relation(fields: [user_id], references: [user_id])
 }
 
 model Characteristics {
-  characteristic_id   Int            @id @default(autoincrement())
-  children_friendly   String         @unique
-  house_trained       String         @unique 
-  live_with_pets      String         @unique
-  good_with_commands  String         @unique
-  separation_anxiety  String         @unique
-  knows_tricks        String         @unique
-  indoor_preference   String         @unique
-  pets                Pet[]          // Many-to-many relationship
+  characteristic_id   Int      @id @default(autoincrement())
+  pet_id              Int
+  children_friendly   Boolean         
+  house_trained       Boolean         
+  live_with_pets      Boolean         
+  good_with_commands  Boolean         
+  separation_anxiety  Boolean         
+  knows_tricks        Boolean         
+  indoor_preference   Boolean         
+  vaccinated          Boolean         
+  toilet_trained      Boolean         
+  pets                Pet    @relation(fields: [pet_id], references: [pet_id], onDelete: Cascade)
 }
 
 model AdoptionApplication {

@@ -12,9 +12,9 @@ const SectionC = ({formData, handleFormInput, handleNext, handlePrevious} : Form
       </div>
 
       <CheckBoxFieldForm
-        onChange = {() => handleFormInput}
+        formData = {formData.characteristics}
+        onChange = {(e) => handleFormInput(e)}
       />
-      
 
       <div className="my-3 flex justify-between mx-12 mb-6">
         <button onClick={handlePrevious} className="bg-primary-green h-16 w-40 rounded-md text-white hover:bg-green-700 text-2xl">

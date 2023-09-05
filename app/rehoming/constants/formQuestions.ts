@@ -6,17 +6,11 @@ export const initialFormData = {
     color: '',
     gender: '',
     age: '',
-    toilet_trained: '',
     medical_condition: '',
     reason: '',
     characteristics: '',
-    vaccination: '',
     terms: false,
   };
-  
-//  export const formSections = [
-//     'Basic Pet Information', 'Health & Training', 'Personality', 'Reasons for Rehoming'
-// ];
 
 export const formSections = [
     {
@@ -25,7 +19,7 @@ export const formSections = [
     },
     {
         section: 'B',
-        section_title: 'Health & Training',
+        section_title: 'Health & Photo',
     },
     {
         section: 'C',
@@ -45,5 +39,12 @@ export const pet_traits = [
     'Separation Anxiety',
     'Knows Tricks',
     'Indoor preference',
-    'Energetic',
+    'Toilet-Trained',
+    'Vaccinated'
 ]
+
+export type FormErrors = {
+    [section: string]: {
+      [field: string]: string;
+    };
+  };

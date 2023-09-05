@@ -4,7 +4,7 @@ import {PiGenderIntersexBold} from 'react-icons/pi';
 import { AiOutlineDollarCircle } from 'react-icons/ai';
 
 interface SearchBarProps {
-    img_src: string,
+    img_src?: string,
     name: string,
     breed: string,
     age: string,
@@ -19,9 +19,10 @@ const SearchCard = ({img_src, name, breed, age, gender, fee} : SearchBarProps) =
         {/* Pet Image */}
         <div className='flex flex-2 relative h-[384px] justify-center'>
             <Image 
-                src= {img_src}
+                src= {img_src || ''}
                 alt={breed}
                 fill
+                sizes='(max-width: 800px) 80vw, 100vw'
                 className='object-cover rounded-t-md'
             />
         </div>
@@ -39,17 +40,17 @@ const SearchCard = ({img_src, name, breed, age, gender, fee} : SearchBarProps) =
             
             {/* Minor details with icons */}
             <div className='flex justify-between px-4'>
-                <div className='flex-col flex gap-2'>
+                <div className='flex-col flex gap-2 capitalize'>
                     <LuCalendarClock 
                         className="w-7 h-7 text-green-500 mx-auto"
                     />
-                    <p className='flex justify-center'>{age} yrs</p>
+                    <p className='flex justify-center'>{age}</p>
                 </div >
                 <div className='flex-col flex gap-2'>
                     <PiGenderIntersexBold 
                         className="w-7 h-7 text-green-500 mx-auto"
                     />
-                    <p className='flex justify-center'>{gender}</p>
+                    <p className='flex justify-center capitalize'>{gender}</p>
                 </div>
                 <div className='flex-col flex gap-2'>
                     <AiOutlineDollarCircle

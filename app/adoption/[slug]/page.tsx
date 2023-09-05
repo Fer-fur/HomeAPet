@@ -1,53 +1,131 @@
+'use client';
+import { useRouter, useSearchParams } from "next/navigation";
 import Adoption_PetInfo_Cell from "./components/Adoption_PetInfo_Cell"
 import CharacteristicsItem from "./components/CharacteristicsItem"
 import PetCarousel from "./components/PetCarousel"
+import Image from "next/image";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface Pet {
+    pet_id: number;
+    name: string;
+    species: string;
+    breed: string;
+    color: string;
+    age: string;
+    gender: string;
+    description: string;
+    medical_condition: string;
+    petURL: string;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+    characteristics: PetCharacteristics[];
+}
+
+interface PetCharacteristics {
+    [key: string]: boolean | number;
+}
+
+interface FilteredPetCharacteristics {
+    [key: string]: boolean;
+}
+
+  
 
 const AdoptionPetInfoPage = () => {
+
+    const [petData, setPetData] = useState<Pet>();
+    const [filteredPetChar, setFilteredPetChar] = useState<FilteredPetCharacteristics[]>()
+
+    const paramsData = useSearchParams();
+    
+    const petID = paramsData.get("pet_id");
+
+    const filterCharacteristics = (characteristicsArray: PetCharacteristics[] | undefined) => {
+        if(!characteristicsArray){
+            return
+        }
+        return characteristicsArray.map((characteristic) => {
+          const properties: Record<string, boolean> = {};
+          for (const key in characteristic) {
+            if (characteristic[key] === true) {
+                properties[key] = true;
+            }
+          }
+          return properties;
+        });
+      };
+
+    useEffect(() => {
+        if(petData){
+            setFilteredPetChar(
+                filterCharacteristics(petData?.characteristics)
+            )
+        }
+        const getPetData = async () => {
+          try {
+            const petDataResults = await axios.get(`/api/petByID?pet_id=${petID}`);
+            setPetData(petDataResults.data.requestedPet);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+    
+        if (petID) {
+          getPetData();
+        }
+      }, [petID, petData]);
+
   return (
     <>
         {/* Pet Information Section */}
         <div className='relative flex flex-col lg:flex-row justify-center items-center h-auto max-w-screen-2xl mx-auto mt-12 pb-8'>
-            <div className='h-[50vh] flex justify-center items-center bg-black w-4/5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
-                Pet Photo here
+            <div className='basis-1/2 h-[50vh] flex justify-center items-center bg-black w-4/5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
+            {petData?.petURL ? (
+                <Image 
+                    src={petData.petURL}
+                    alt="Image of Pet"
+                    width={400}
+                    height={300}
+                    className='object-scale-down'
+                />
+            ) : null}
             </div>
-            <div className='h-[50vh] flex flex-col gap-6 justify-center items-center bg-green-50 w-4/5 rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none p-10 shadow-lg'>
+            <div className='basis-1/2 h-[50vh] flex flex-col gap-6 justify-center items-center bg-green-50 w-4/5 rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none p-10 shadow-lg'>
                 <Adoption_PetInfo_Cell 
                     header='Name | (Type of Pet):'
-                    content='Tubby ( Dog )'
+                    content={`${petData?.name} ( ${petData?.species} )`}
                     size = 'w-4/5 text-2xl'
                 />
                 <div className='flex-1 flex gap-6 justify-center items-center w-4/5 h-4/5'>
                     <Adoption_PetInfo_Cell 
                         header = 'Breed'
-                        content = 'Corgi'
+                        content = {`${petData?.breed}`}
                         size = 'w-full'
                     />
                     <Adoption_PetInfo_Cell 
                         header = 'Color'
-                        content='White-brown'
+                        content={`${petData?.color}`}
                         size = 'w-full'
                     />
                 </div>
                 <div className='flex-1 flex gap-6 justify-center items-center w-4/5 h-4/5'>
                     <Adoption_PetInfo_Cell 
                         header = 'Gender'
-                        content='Male'
+                        content={`${petData?.gender}`}
                         size = 'w-full'
                     />
                     <Adoption_PetInfo_Cell 
                         header = 'Age'
-                        content='3+ years'
-                        size = 'w-full'
-                    />
-                    <Adoption_PetInfo_Cell 
-                        header = 'Toilet-Trained'
-                        content='Yes'
+                        content={`${petData?.age}`}
                         size = 'w-full'
                     />
                 </div>
                 <Adoption_PetInfo_Cell 
                     header = 'Medical Condition (If Any)'
-                    content='Healthy'
+                    content={`${petData?.medical_condition}`}
                     size = 'w-4/5'
                 />
             </div>
@@ -64,7 +142,7 @@ const AdoptionPetInfoPage = () => {
                         </div>
                         <div className='px-6'>
                             <p>
-                            Lost of job therefore could no longer afford to continue caring for this wonderful friend.
+                            {`${petData?.description}`}
                             </p>
                         </div>
                     </div>
@@ -72,17 +150,19 @@ const AdoptionPetInfoPage = () => {
                         <h2 className=' text-primary-green font-semibold text-2xl'>
                             Characteristics 
                         </h2>
-                        <ul className='flex gap-6 my-6'>
-                            <CharacteristicsItem content='Children Friendly'/>
-                            <CharacteristicsItem content='House-trained' />
-                            <CharacteristicsItem content='Can live with other pets' />
+                        <ul className='flex gap-6 my-6 flex-wrap'>
+                            {filteredPetChar?.map((char) => (
+                                Object.keys(char).map((key) => (
+                                    <CharacteristicsItem key={key} content={key.replaceAll('_', " ")} />
+                                ))
+                            ))}
                         </ul>
                     </div>
                 </div>
                 
                 <div className='basis-1/3 bg-white shadow-md rounded-lg p-6 flex flex-col justify-center  min-h-[384px] h-fit '>
-                    <div className='border-4 border-dotted border-green-500 flex flex-col gap-20 p-8 rounded-2xl'>
-                        <p className=' text-center'>Love Tubby? Give him a home. We will provide animal loving volunteers who will visit and guide you to provide your new loving pet a comfortable home.</p>
+                    <div className='border-4 border-dotted border-green-500 flex flex-col p-8 rounded-2xl'>
+                        <p className='py-10 text-center'>Love <span className=" capitalize text-primary-green text-xl">{petData?.name}</span>? Give him a home. We will provide animal loving volunteers who will visit and guide you to provide your new loving pet a comfortable home.</p>
                         <button className='bg-green-400 h-24 rounded-2xl text-white hover:bg-green-600 shadow-md'>Adopt me!</button>
                     </div>
                     

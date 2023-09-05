@@ -1,42 +1,118 @@
+'use client';
 import { SearchCard } from '@/components';
 import { GalleryCard } from '@/link_webContent';
 import Link from 'next/link';
 import SearchBar from './components/SearchBar';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+interface petDataProps {
+    pet_id : number;
+    name : string;
+    species: string;
+    breed: string;
+    color: string;
+    age: string;
+    gender: string;
+    description: string;
+    medical_condition: string;
+    petURL: string;
+    user_id: number
+}
 
 const AdoptionPage = () => {
-  return (
-    <div className='relative max-w-screen-2xl min-h-screen flex justify-center items-center mx-auto h-auto pb-12'>
-        <div className='flex flex-col mt-10 gap-12 w-full '>
-            {/* Page title */}
-            <div className='flex justify-center'>
-                <h1 className='font-bold font-poppins text-5xl text-primary-green drop-shadow-lg'>
-                    Pet Gallery
-                </h1>
-            </div>
-            {/* Search bar and filters */}
-            <div className='relative w-full mx-auto flex justify-center'>
-                <SearchBar />
-            </div>
-            {/* Search Result Cards */}
-            <div className='relative flex flex-wrap z-10 justify-center items-center gap-10 lg:gap-20 h-fit'>
-                {GalleryCard.map((data) => (
-                    <Link key={data.id}
-                            href={`/adoption/${data.id}`}>
-                        <SearchCard 
-                            img_src={data.image_src}
-                            name={data.name}
-                            breed={data.breed}
-                            age={data.age}
-                            gender={data.gender}
-                            fee={data.fee}
-                        />
-                    </Link>
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [galleryCards, setGalleryCards] = useState<petDataProps[]>([])
+
+    const getGalleryCards = async(pageNumber : number) => {
+
+        try {
+            const fetchedData = await axios.get(`api/pets?page=${pageNumber}`);
+
+            const petsData = fetchedData.data;
+
+            setGalleryCards(petsData.requestedPets);
+            setTotalPages(Math.ceil(petsData.totalNumOfPets / 10));
+
+        } catch (error) {
+            console.log('Error fetching pets', error);
+        }
+    };
+
+    const handlePageChange = (nextPageNumber : number) => {
+        setCurrentPage(nextPageNumber);
+    };
+
+    useEffect(() => {
+      getGalleryCards(currentPage);
+    }, [currentPage]);
+
+    return (
+        <div className='relative max-w-screen-2xl min-h-screen flex justify-center items-center mx-auto h-auto pb-12'>
+            <div className='flex flex-col mt-10 gap-12 w-full '>
+                {/* Page title */}
+                <div className='flex justify-center'>
+                    <h1 className='font-bold font-poppins text-5xl text-primary-green drop-shadow-lg'>
+                        Pet Gallery
+                    </h1>
+                </div>
+                {/* Search bar and filters */}
+                <div className='relative w-full mx-auto flex justify-center'>
+                    <SearchBar />
+                </div>
+                {/* Search Result Cards */}
+                <div className='relative flex flex-wrap z-10 justify-center items-center gap-10 lg:gap-20 h-fit'>
+                    {galleryCards.map((pet) => (
+                        <Link key={pet.pet_id}
+                            href={{
+                                pathname: `/adoption/${pet.pet_id}`,
+                                query: {pet_id: pet.pet_id},
+                            }}
+                            // as={`/adoption/${pet.pet_id}`}
+                        >
+                            <SearchCard 
+                                img_src={pet.petURL}
+                                name={pet.name}
+                                breed={pet.breed}
+                                age={pet.age}
+                                gender={pet.gender}
+                                fee={50}
+                            />
+                        </Link>
+                        
+                    ))}
+                </div>
+                {/* Pagination Buttons */}
+                <div className='flex justify-center gap-4'>
+                    <button
+                        disabled={currentPage === 1}
+                        hidden = {currentPage === 1}
+                        onClick={() => handlePageChange(currentPage-1)}
+                        className='p-3 bg-green-400 rounded-lg w-32 hover:translate-y-[-5px] hover:bg-green-500 shadow-md'
+                    >
+                        Previous
+                    </button>
                     
-                ))}
+                    {/* <span>{currentPage}</span> 
+                    <span> / </span>
+                    <span>{totalPages}</span> */}
+                    <div className='flex justify-center items-center'>
+                        {currentPage} / {totalPages} Pages
+                    </div>
+                    <button
+                        disabled={currentPage === totalPages}
+                        hidden = {currentPage === 1}
+                        onClick={() => handlePageChange(currentPage+1)}
+                        className='p-3 bg-blue-400 rounded-lg w-32 hover:translate-y-[-5px] hover:bg-blue-500 shadow-md'
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default AdoptionPage
