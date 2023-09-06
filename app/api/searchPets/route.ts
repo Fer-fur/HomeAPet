@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async(req: NextRequest) => {
 
     // Obtain the query for species searched.
-    const requestedSpecies = req.nextUrl.searchParams.get("species");
+    const requestedSpecies = req.nextUrl.searchParams.get("type");
 
     if (!requestedSpecies){
         return NextResponse.json({ message: "'species' and a string type value is required in the request!"}, {status: 400});
@@ -36,7 +36,7 @@ export const GET = async(req: NextRequest) => {
 
         // Retrieve request amount of pets with pagination
         const requestedFilteredPets = await prisma.pet.findMany({
-            where: {species: requestedSpecies},
+            where: {species: requestedSpecies.toLowerCase()},
             skip: offsetValue,
             take: requestedNumberOfPets
         });

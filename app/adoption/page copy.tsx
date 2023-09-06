@@ -5,7 +5,20 @@ import Link from 'next/link';
 import SearchBar from './components/SearchBar';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { petDataProps } from './constants';
+
+interface petDataProps {
+    pet_id : number;
+    name : string;
+    species: string;
+    breed: string;
+    color: string;
+    age: string;
+    gender: string;
+    description: string;
+    medical_condition: string;
+    petURL: string;
+    user_id: number
+}
 
 const AdoptionPage = () => {
 
@@ -20,9 +33,8 @@ const AdoptionPage = () => {
 
             const petsData = fetchedData.data;
 
-
-            setGalleryCards(petsData.requestedPets);
-            setTotalPages(Math.ceil(petsData.totalNumOfPets / 10));
+            setGalleryCards(petsData.requestedFilteredPets);
+            setTotalPages(Math.ceil(petsData.totalNumOfFilteredPets / 10));
 
         } catch (error) {
             console.log('Error fetching pets', error);
@@ -35,23 +47,18 @@ const AdoptionPage = () => {
 
     const handleSearch = async( searchTerm : string) => {
         
-        // A check to reset the gallery cards if user does not input anything
-        if(searchTerm === ""){
-            getGalleryCards(currentPage);
-            return
-        }
-        
-        try {
-            const searchResults = await axios.get(`api/searchPets?type=${searchTerm}&page=${currentPage}`)
+        console.log("test")
+        // try {
+        //     const searchResults = await axios.get(`api/searchPets?type=${searchTerm}&page=${currentPage}`)
             
-            const petsData = searchResults.data;
+        //     const petsData = searchResults.data;
 
-            setGalleryCards(petsData.requestedFilteredPets);
-            setTotalPages(Math.ceil(petsData.totalNumOfFilteredPets / 10));
+        //     setGalleryCards(petsData.requestedPets);
+        //     setTotalPages(Math.ceil(petsData.totalNumOfPets / 10));
 
-        } catch (error) { 
-            setGalleryCards([]);
-        }
+        // } catch (error) { 
+        //     setGalleryCards([]);
+        // }
     }
 
     useEffect(() => {

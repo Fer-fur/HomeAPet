@@ -66,9 +66,9 @@ model AdoptionApplication {
   applicant_email     String
   applicant_phone     String
   pet_id              Int
-  application_status  String
+  application_status  String   
   created_at          DateTime @default(now())
-  updated_at          DateTime @updatedAt
+  updated_at          DateTime @default(now()) @updatedAt
   pet                 Pet      @relation(fields: [pet_id], references: [pet_id])
 }
 

@@ -20,10 +20,7 @@ export const POST = async (req : NextRequest) => {
         });
 
         if (!user) {
-            return NextResponse.json(
-                { error: "Email not found."}, 
-                {status: 404}
-            )
+            return NextResponse.json({ error: "Email not found."}, {status: 404})
         }
 
         // Check Password

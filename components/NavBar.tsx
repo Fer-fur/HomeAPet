@@ -66,7 +66,7 @@ const NavBar = () => {
                         {navbar_links.map((link) => (
                             <li className='hover:translate-y-[-5px]' key={link.title}>
                                <Link href={link.url}
-                                className={`mx-4 ${link.textColour}`}
+                                className={`mx-4 ${link.textColour} `}
                                 >
                                     {link.title}
                                 </Link>

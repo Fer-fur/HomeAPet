@@ -8,10 +8,10 @@ interface Adoption_PetInfoProps {
 const Adoption_PetInfo_Cell = ({header, content, size} : Adoption_PetInfoProps) => {
   return (
     <div className={`flex-1 flex flex-col justify-center items-center bg-white h-full rounded-t-2xl shadow-md ${size}`}>    
-        <div className='flex flex-1 justify-center items-center text-center bg-green-300 w-full h-full rounded-t-md font-semibold text-xl font-poppins'>
+        <div className='flex flex-1 justify-center items-center text-center bg-green-300 w-full h-full rounded-t-md font-semibold text-xl font-poppins py-2'>
           {header}
         </div>
-        <div className='flex-1 flex justify-center items-center capitalize'>
+        <div className='flex-1 flex justify-center items-center py-3 capitalize'>
           {content}
         </div>
     </div>

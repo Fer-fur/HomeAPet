@@ -46,8 +46,12 @@ export const AuthProvider = ({
 
     useEffect(() => {
         const fetchAuthStatus = async () => {
-            const { data: { isLoggedIn } } = await axios.get('/api/auth_status');
-            setIsLoggedIn(isLoggedIn);
+            try {
+                const { data: { isLoggedIn } } = await axios.get('/api/auth_status');
+                setIsLoggedIn(isLoggedIn);
+            } catch (error) {
+                return
+            }
         };
         fetchAuthStatus();
     }, []);

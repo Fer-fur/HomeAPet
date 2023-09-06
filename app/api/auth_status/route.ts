@@ -11,7 +11,7 @@ export const GET = async() => {
     const token = userCookies.get(jwt_token_name);
 
     if (!token) {
-        return NextResponse.json({isLoggedIn: false}, {status: 401});
+        return NextResponse.json({isLoggedIn: false});
     }
 
     //Retrieve secret key for JWT 
@@ -32,7 +32,7 @@ export const GET = async() => {
         }
         
     } catch (error) {
-        return NextResponse.json({message: "Unauthorized"}, {status: 401});
+        return NextResponse.json({isLoggedIn: false});
     }
     
 

@@ -1,11 +1,12 @@
 'use client';
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Adoption_PetInfo_Cell from "./components/Adoption_PetInfo_Cell"
 import CharacteristicsItem from "./components/CharacteristicsItem"
 import PetCarousel from "./components/PetCarousel"
 import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import AdoptionForm from "./components/AdoptionForm";
 
 interface Pet {
     pet_id: number;
@@ -31,8 +32,6 @@ interface PetCharacteristics {
 interface FilteredPetCharacteristics {
     [key: string]: boolean;
 }
-
-  
 
 const AdoptionPetInfoPage = () => {
 
@@ -76,60 +75,62 @@ const AdoptionPetInfoPage = () => {
         if (petID) {
           getPetData();
         }
+
       }, [petID, petData]);
 
   return (
     <>
         {/* Pet Information Section */}
-        <div className='relative flex flex-col lg:flex-row justify-center items-center h-auto max-w-screen-2xl mx-auto mt-12 pb-8'>
-            <div className='basis-1/2 h-[50vh] flex justify-center items-center bg-black w-4/5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
-            {petData?.petURL ? (
-                <Image 
-                    src={petData.petURL}
-                    alt="Image of Pet"
-                    width={400}
-                    height={300}
-                    className='object-scale-down'
-                />
-            ) : null}
+        <div className='relative flex flex-col lg:flex-row justify-center items-stretch h-auto max-w-screen-2xl mx-auto mt-12 pb-8'>
+            <div className='basis-1/2 h-auto w-auto flex justify-center items-center bg-black rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
+                {petData?.petURL ? (
+                    <Image 
+                        src={petData.petURL}
+                        alt="Image of Pet"
+                        width={400}
+                        height={300}
+                        className='object-contain overflow-hidden'
+                    />
+                ) : null}
             </div>
-            <div className='basis-1/2 h-[50vh] flex flex-col gap-6 justify-center items-center bg-green-50 w-4/5 rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none p-10 shadow-lg'>
+            <div className='basis-1/2 h-auto w-auto flex flex-col gap-6 justify-center items-center bg-green-50 rounded-b-xl lg:rounded-r-xl lg:rounded-bl-none p-10 shadow-lg'>
                 <Adoption_PetInfo_Cell 
                     header='Name | (Type of Pet):'
                     content={`${petData?.name} ( ${petData?.species} )`}
-                    size = 'w-4/5 text-2xl'
+                    size='w-4/5 text-2xl'
                 />
-                <div className='flex-1 flex gap-6 justify-center items-center w-4/5 h-4/5'>
+                <div className='flex-1 flex gap-6 justify-center items-stretch w-4/5 h-auto'>
                     <Adoption_PetInfo_Cell 
-                        header = 'Breed'
-                        content = {`${petData?.breed}`}
-                        size = 'w-full'
+                        header='Breed'
+                        content={`${petData?.breed}`}
+                        size='w-full'
                     />
                     <Adoption_PetInfo_Cell 
-                        header = 'Color'
+                        header='Color'
                         content={`${petData?.color}`}
-                        size = 'w-full'
+                        size='w-full'
                     />
                 </div>
-                <div className='flex-1 flex gap-6 justify-center items-center w-4/5 h-4/5'>
+                <div className='flex-1 flex gap-6 justify-center items-stretch w-4/5 h-auto'>
                     <Adoption_PetInfo_Cell 
-                        header = 'Gender'
+                        header='Gender'
                         content={`${petData?.gender}`}
-                        size = 'w-full'
+                        size='w-full'
                     />
                     <Adoption_PetInfo_Cell 
-                        header = 'Age'
+                        header='Age'
                         content={`${petData?.age}`}
-                        size = 'w-full'
+                        size='w-full'
                     />
                 </div>
                 <Adoption_PetInfo_Cell 
-                    header = 'Medical Condition (If Any)'
+                    header='Medical Condition (If Any)'
                     content={`${petData?.medical_condition}`}
-                    size = 'w-4/5'
+                    size='w-4/5'
                 />
             </div>
         </div>
+
         {/* Pet description, characteristics section */}
         <div className='relative flex flex-col lg:flex-row justify-center items-center h-fit mx-auto mt-12 bg-zinc-200 py-6'>
             <div className='flex flex-col lg:flex-row w-4/5 max-w-screen-2xl gap-8'>
@@ -161,16 +162,17 @@ const AdoptionPetInfoPage = () => {
                 </div>
                 
                 <div className='basis-1/3 bg-white shadow-md rounded-lg p-6 flex flex-col justify-center  min-h-[384px] h-fit '>
-                    <div className='border-4 border-dotted border-green-500 flex flex-col p-8 rounded-2xl'>
-                        <p className='py-10 text-center'>Love <span className=" capitalize text-primary-green text-xl">{petData?.name}</span>? Give him a home. We will provide animal loving volunteers who will visit and guide you to provide your new loving pet a comfortable home.</p>
-                        <button className='bg-green-400 h-24 rounded-2xl text-white hover:bg-green-600 shadow-md'>Adopt me!</button>
+                    <div className='border-4 border-dotted border-green-500 flex flex-col p-4 rounded-2xl'>
+                        <p className='text-center'>Love <span className=" capitalize text-primary-green text-xl">{petData?.name}</span>? Give it a home. We will provide animal loving volunteers who will visit and guide you to provide your new loving pet a comfortable home. Fill in the form below.</p>
+                        <AdoptionForm pet_id={Number(petID)} />
                     </div>
-                    
                 </div>
             </div>
         </div>
         {/* Pet promotional banner section */}
-        <PetCarousel />
+        {petData && (
+            <PetCarousel species={petData.species} />
+        )}
     </>
   )
 }
