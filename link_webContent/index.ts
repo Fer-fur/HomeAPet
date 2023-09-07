@@ -15,8 +15,13 @@ export const navbar_links = [
     {
         url: '/volunteer',
         title: 'Volunteer',
-        textColour: 'text-orange-400'
+        textColour: 'text-red-400'
     },
+    {
+        url: '/dashboard',
+        title: 'Dashboard',
+        textColour: ''
+    }
 ]
 
 // Footer links

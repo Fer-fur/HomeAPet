@@ -20,7 +20,10 @@ module.exports = {
         },
         'primary-blue': {
           DEFAULT: '#3778C2'
-        }
+        },
+        'primary-orange': {
+          DEFAULT: '#FE6601'
+        },
       },
       dropShadow: {
         '3xl': '0 35px 35px rgba(0, 0, 0, 0.25)',

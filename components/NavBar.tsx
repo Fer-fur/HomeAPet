@@ -63,15 +63,16 @@ const NavBar = () => {
                 {/* Navigational Links */}
                 <div className={`w-full block flex-grow lg:flex lg:w-auto lg:order-1 ${isOpen ? "block" : "hidden"}`}>
                     <ul className='text-[26px] flex justify-center mt-8 lg:ml-12 lg:text-[20px] bg-slate-200 lg:bg-white rounded-b-lg'>
-                        {navbar_links.map((link) => (
+                    {navbar_links.map((link) => (
+                        // Check if isLoggedIn is true or if the link.title is not "Dashboard"
+                        (isLoggedIn || link.title !== "Dashboard") && (
                             <li className='hover:translate-y-[-5px]' key={link.title}>
-                               <Link href={link.url}
-                                className={`mx-4 ${link.textColour} `}
-                                >
-                                    {link.title}
-                                </Link>
+                            <Link href={link.url} className={`mx-4 ${link.textColour}`}>
+                                {link.title}
+                            </Link>
                             </li>
-                        ))}
+                        )
+                    ))}
                     </ul>
                 </div>
 

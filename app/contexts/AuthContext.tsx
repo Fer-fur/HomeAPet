@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextValue {
   isLoggedIn: boolean;
+  user_email: string;
   login: () => void;
   logout: () => void;
 }
@@ -16,6 +17,7 @@ interface AuthRemovalProps {
 
 const AuthContext = createContext<AuthContextValue>({
                                                 isLoggedIn: false,
+                                                user_email: "",
                                                 login() {},
                                                 logout() {},
                                             });
@@ -28,6 +30,7 @@ export const AuthProvider = ({
     const router = useRouter();
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user_email, setUser_email] = useState("");
 
     const login = () => {
         setIsLoggedIn(true);
@@ -47,8 +50,9 @@ export const AuthProvider = ({
     useEffect(() => {
         const fetchAuthStatus = async () => {
             try {
-                const { data: { isLoggedIn } } = await axios.get('/api/auth_status');
+                const { data: { isLoggedIn, user_email } } = await axios.get('/api/auth_status');
                 setIsLoggedIn(isLoggedIn);
+                setUser_email(user_email);
             } catch (error) {
                 return
             }
@@ -60,6 +64,7 @@ export const AuthProvider = ({
         <AuthContext.Provider value={
         {
             isLoggedIn,
+            user_email,
             login,
             logout,
         }}>

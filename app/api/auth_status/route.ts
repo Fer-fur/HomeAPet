@@ -25,8 +25,9 @@ export const GET = async() => {
         const decodedToken = jwt.verify(token.value, secret_key);
 
         if (typeof decodedToken === 'object') {
+            const user_email = decodedToken.user.email;
             const isLoggedIn = true;
-            return NextResponse.json({message: "Authorized", isLoggedIn}, {status: 200});
+            return NextResponse.json({message: "Authorized", isLoggedIn, user_email}, {status: 200});
         } else {
             throw new Error('The token is not a valid JWT token.');
         }

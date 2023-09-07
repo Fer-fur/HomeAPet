@@ -14,7 +14,7 @@ const DashboardContainer = ({border_color, header_bg_color, content_bg_color,hea
            {header_title}
         </h2>
         <div className={`flex flex-1 rounded-b-xl justify-center ${content_bg_color} `}>
-            <div className="h-32">
+            <div className="h-fit">
                 {children}
             </div>
         </div>
