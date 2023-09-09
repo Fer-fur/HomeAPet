@@ -86,7 +86,7 @@ const VolunteerSignUpForm = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="interests"
             name="interests"
-            placeholder="Tell us about your what pets are you interested and have good knowledge with."
+            placeholder="Tell us about yourself and what pets are you interested and have good knowledge with."
             value={formData.interests}
             onChange={handleChange}
             required

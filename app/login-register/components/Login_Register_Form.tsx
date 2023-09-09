@@ -69,7 +69,6 @@ const Login_Register_Form = () => {
       
       try {
         const result = await axios.put('api/register', formData);
-        console.log('Register form submitted successfully', result.data);
         setRegisterSuccess(true);
 
       } catch (error: any) {
@@ -94,8 +93,7 @@ const Login_Register_Form = () => {
   useEffect(() => {
     if (registerSuccess) {
       setTimeout(() => {
-        // redirect to homepage after successful account registration
-        router.push('/'); 
+        login(); 
       }, 2000) // Delay 2 seconds to display success message
     }
   },[registerSuccess, router]);

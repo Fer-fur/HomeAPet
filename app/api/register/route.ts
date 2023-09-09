@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { jwt_token_name } from "@/constants";
 
 export const PUT = async (req: NextRequest) => {
     const formData = await req.json();
@@ -25,7 +27,37 @@ export const PUT = async (req: NextRequest) => {
                 password: hashPassword,
             }
         });
-        return NextResponse.json({message: "Success: ", }, {status: 201})
+
+        // ---- Cleared Authentication ----
+
+        // Retrieve secret key for JWT 
+        const secret_key = process.env.JWT_SECRET_KEY;
+
+        // Check if secret_key is defined
+        if(!secret_key){
+            throw new Error('JWT_SECRET_KEY environment variable is not set.');
+        }
+
+        const payload = { user: {
+                                email: newUser.email,
+        }}
+        const token = jwt.sign( payload,
+                            secret_key,
+                            {expiresIn: '1d'});
+
+        const res = NextResponse.json(
+            {message: "Sign Up Successful."}, 
+            {status: 201 },
+        )
+
+        res.cookies.set(jwt_token_name, 
+                        token, 
+                        {
+                            httpOnly: true, 
+                            sameSite: 'strict',
+                        });
+
+        return res;
     } catch (error: any) {
         return NextResponse.json({message: "Error" , error}, {status: 500})
     }

@@ -11,8 +11,8 @@ import { adoptionApplicationType, rehomingApplicantsType } from './constants';
 
 const DashBoardPage = () => {
 
-    const [adoptionApplications, setAdoptionApplications] = useState<adoptionApplicationType[]>();
-    const [rehomingApplicants, setRehomingApplicants] = useState<rehomingApplicantsType[]>();
+    const [adoptionApplications, setAdoptionApplications] = useState<adoptionApplicationType[]>([]);
+    const [rehomingApplicants, setRehomingApplicants] = useState<rehomingApplicantsType[]>([]);
     const [volunterStatus, setVolunteerStatus] = useState<boolean>(false);
     const { user_email } = useAuth();
 
@@ -20,6 +20,8 @@ const DashBoardPage = () => {
         try {
             const res = await axios.post('/api/dashboard', {user_email: user_email});
             console.log(res.data);
+            console.log(res.data.petAdoptionApplicationData);
+            console.log(res.data.rehomingApplicantsData);
             setAdoptionApplications(res.data.petAdoptionApplicationData);
             setRehomingApplicants(res.data.rehomingApplicantsData);
             setVolunteerStatus(res.data.volunteerApplicationData);
@@ -44,7 +46,7 @@ const DashBoardPage = () => {
                     content_bg_color="bg-green-200"
                     header_title="Listed Pets For Rehoming"
                 >
-                    {rehomingApplicants != null ? (
+                    {rehomingApplicants.length > 0 ? (
                         <div className="py-12 flex flex-wrap gap-10 justify-center">
                             {rehomingApplicants.map((pet, index) => (
                                 <RehomingListingDashBoardCard 
@@ -69,7 +71,7 @@ const DashBoardPage = () => {
                     content_bg_color="bg-blue-200"
                     header_title="Adoption Application Status"
                 >   
-                    {adoptionApplications != null ? (
+                    {adoptionApplications.length > 0 ? (
                         <div className="py-12 flex flex-wrap gap-10">
                             {adoptionApplications.map((application, index) => (
                                 <AdoptionDashBoardCard key={index} 
