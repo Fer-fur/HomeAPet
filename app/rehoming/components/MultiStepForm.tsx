@@ -204,7 +204,7 @@ const MultiStepForm = () => {
 
         console.log(formData);
 
-        // Now that you have the owner's email, proceed to upload the image
+        // Upload the image 
         if (image64Data) {
           // Creating a FormData object to store the image
           const imageData = new FormData();

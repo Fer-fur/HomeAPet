@@ -27,23 +27,23 @@ export const navbar_links = [
 // Footer links
 export const footer_links = [
     {
-        section_title: 'About',
+        section_title: 'How it works',
         links: [
             {
-                title: 'Adoption Fee information',
-                url: '/'
-            },
-            {
-                title: 'Partnership',
-                url: '/'
+                title: 'Adoption Fee Purpose',
+                url: '/adoptionfee'
             },
             {
                 title: 'Adoption Procedures',
-                url: '/'
+                url: '/adoption-procedures'
             },
             {
                 title: 'Rehoming Procedures',
-                url: '/'
+                url: '/rehoming-procedures'
+            },
+            {
+                title: 'Volunteer Procedures',
+                url: '/volunteer-procedures'
             }
         ]
     },
@@ -52,12 +52,8 @@ export const footer_links = [
         links: [
             {
                 title: 'Ownership Responsibilities',
-                url: '/'
+                url: '/articles'
             },
-            {
-                title: 'Ownership Costs',
-                url: '/'
-            }
         ]
     },
 ]

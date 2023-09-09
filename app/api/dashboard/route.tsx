@@ -7,44 +7,54 @@ export const POST = async(req : NextRequest) => {
 
     try {
         // retrieve adoption data
-        const applications = await prisma.adoptionApplication.findMany({
+        const adoptApplications = await prisma.adoptionApplication.findMany({
             where: { applicant_email : userEmail },
             include: { 
                 pet: true
             }
         })
 
-        const petApplicationPhotos = applications.map((application) => application.pet.petURL);
-        
-        // modify adoption data to append multiple applicants to the same pet
-        const petApplicationData = applications.reduce((acc, application) => {
-            const existingEntry = acc.find((entry) => entry.petURL === application.pet.petURL);
+        // using an array.map function to create a new array to store the petURL, pet name and breed.
+        const petAdoptionApplicationData = adoptApplications.map((application) => ({
+            petURL : application.pet.petURL,
+            petName : application.pet.name,
+            petBreed : application.pet.breed,
+        }));
 
-            if (existingEntry) {
-                // If an entry with the same petURL exists, add the applicant details to the applicants array
-                existingEntry.applicants.push({
-                applicant_name: application.applicant_name,
-                applicant_phone: application.applicant_phone,
-                });
-            } else {
-                // If no entry with the same petURL exists, create a new entry
-                acc.push({
-                petURL: application.pet.petURL,
-                applicants: [
-                    {
-                    applicant_name: application.applicant_name,
-                    applicant_phone: application.applicant_phone,
-                    },
-                ],
-                });
+        // retrieve user data
+        const userData = await prisma.user.findUnique({
+            where: { email : userEmail },
+        })
+
+        // Using user_id to retrieve the user's listed pets
+        const petsData = await prisma.pet.findMany({
+            where: { user_id : userData?.user_id},
+            include: { applications: true }
+        })
+
+        // With the listed pets data, modify the data structure to only return what is needed
+        const rehomingApplicantsData = petsData.map((pet) => ({
+            petURL : pet.petURL,
+            applicants: pet.applications.map((applicant) => ({
+                applicant_name: applicant.applicant_name,
+                applicant_phone: applicant.applicant_phone
+            }))
+        }))
+
+        // Retrieve the volunteer status
+        const volunteerApplication = await prisma.volunteer.findFirst({
+            where: {
+                email : userEmail
             }
+        })
 
-            return acc;
-        }, [] as { petURL: string; applicants: { applicant_name: string; applicant_phone: string }[] }[]);
+        let volunteerApplicationData:boolean = false;
 
-        console.log(petApplicationPhotos);
+        if (volunteerApplication != null) {
+            volunteerApplicationData = true;
+        }
 
-        return NextResponse.json({message: "Success", petApplicationData, petApplicationPhotos}, {status: 200})
+        return NextResponse.json({message: "Success", petAdoptionApplicationData, rehomingApplicantsData, volunteerApplicationData}, {status: 200})
 
     } catch (error) {
         console.log(error);

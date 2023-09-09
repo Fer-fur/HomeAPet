@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useState } from 'react';
-import { rehomingApplicantsType } from '../page';
+import { rehomingApplicantsType } from '../constants';
 
 interface PetCardProps {
   petImage: string;
@@ -36,7 +36,10 @@ const RehomingListingDashBoardCard = ( {petURL, applicants} : rehomingApplicants
                                     </span>
                                 </p>
                             </div>
-                            <button className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-700 ">
+                            <button 
+                                className="bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-700"
+                                onClick={() => alert("A staff will email you shortly to set up a zoom meeting to meet up with the potential adopters to help you better decide. Look out for the email.")}    
+                            >
                                 Accept & Schedule Interview
                             </button>
                         </>

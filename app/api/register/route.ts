@@ -1,17 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { jwt_token_name } from "@/constants";
-
-export const GET = async ( req: NextRequest, res: NextResponse) => {
-    try {
-        const allUsers = await prisma.user.findMany()
-        return NextResponse.json({ message: "Success: ", allUsers}, {status: 200})
-    } catch (error) {
-        return NextResponse.json({ message: "Error", error}, {status: 500})
-    }
-};
 
 export const PUT = async (req: NextRequest) => {
     const formData = await req.json();

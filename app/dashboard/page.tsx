@@ -7,28 +7,22 @@ import VolunteerAppDashBoardCard from "./components/VolunteerAppDashBoardCard"
 import RehomingListingDashBoardCard from "./components/RehomingListingDashBoardCard"
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-
-export interface rehomingApplicantsType { 
-    petURL: string; 
-    applicants: { 
-        applicant_name: string; 
-        applicant_phone: string 
-    }[] 
-}
-    
+import { adoptionApplicationType, rehomingApplicantsType } from './constants';
 
 const DashBoardPage = () => {
 
-    const [petPhotos, setPetPhotos] = useState<string[]>();
+    const [adoptionApplications, setAdoptionApplications] = useState<adoptionApplicationType[]>();
     const [rehomingApplicants, setRehomingApplicants] = useState<rehomingApplicantsType[]>();
+    const [volunterStatus, setVolunteerStatus] = useState<boolean>(false);
     const { user_email } = useAuth();
 
     const getDashBoardData = async () => {
         try {
             const res = await axios.post('/api/dashboard', {user_email: user_email});
             console.log(res.data);
-            setPetPhotos(res.data.petApplicationPhotos);
-            setRehomingApplicants(res.data.petApplicationData);
+            setAdoptionApplications(res.data.petAdoptionApplicationData);
+            setRehomingApplicants(res.data.rehomingApplicantsData);
+            setVolunteerStatus(res.data.volunteerApplicationData);
         } catch (error) {
             return
         }
@@ -51,7 +45,7 @@ const DashBoardPage = () => {
                     header_title="Listed Pets For Rehoming"
                 >
                     {rehomingApplicants != null ? (
-                        <div className="py-12 flex flex-wrap gap-10">
+                        <div className="py-12 flex flex-wrap gap-10 justify-center">
                             {rehomingApplicants.map((pet, index) => (
                                 <RehomingListingDashBoardCard 
                                     key={index} 
@@ -61,7 +55,7 @@ const DashBoardPage = () => {
                             ))}
                         </div>)
                         : (
-                            <div className='h-32'>
+                            <div className='h-32 flex items-center'>
                                 No rehoming applications.
                             </div>
                         )
@@ -75,14 +69,18 @@ const DashBoardPage = () => {
                     content_bg_color="bg-blue-200"
                     header_title="Adoption Application Status"
                 >   
-                    {petPhotos != null ? (
+                    {adoptionApplications != null ? (
                         <div className="py-12 flex flex-wrap gap-10">
-                            {petPhotos.map((photo, index) => (
-                                <AdoptionDashBoardCard key={index} petURL={photo} />
+                            {adoptionApplications.map((application, index) => (
+                                <AdoptionDashBoardCard key={index} 
+                                    petURL={application.petURL} 
+                                    petName = {application.petName} 
+                                    petBreed = {application.petBreed}
+                                />
                             ))}
                         </div>)
                         : (
-                            <div className='h-32'>
+                            <div className='h-32 flex items-center'>
                                 No adoption applications.
                             </div>
                         )
@@ -97,9 +95,16 @@ const DashBoardPage = () => {
                     content_bg_color="bg-orange-200"
                     header_title="Volunteer Application Status"
                 >
-                    <div className="py-12">
-                        <VolunteerAppDashBoardCard />
-                    </div>
+                    
+                    {volunterStatus ? (
+                        <div className="py-12">
+                            <VolunteerAppDashBoardCard />
+                        </div>
+                    ) : (
+                        <div className="h-32 flex items-center">
+                            No Volunteer applications.
+                        </div>
+                    )}
                 </DashboardContainer>
 
             </div>
