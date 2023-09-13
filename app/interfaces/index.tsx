@@ -40,6 +40,7 @@ export interface FormTextFieldProps {
     onChange(e: React.ChangeEvent<HTMLInputElement>) : void;
     field_id : string;
     placeholder?: string;
+    fieldGuide? : string;
 }
 
 export interface FormRadioFieldProps {

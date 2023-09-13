@@ -16,7 +16,7 @@ export const GET = async(req: NextRequest) => {
     }
 
     try {
-        const requestedNumberOfPets = 10;
+        const requestedNumberOfPets = 5;
 
         // Offset the page number and retrieve the amount needed by page size
         const offsetValue = (Number(requestedPages) - 1) * requestedNumberOfPets;
@@ -35,7 +35,6 @@ export const GET = async(req: NextRequest) => {
 
         return NextResponse.json({ message: "Success: ", requestedPets, totalNumOfPets}, {status: 200})
     } catch (error) {
-        console.log(error);
         return NextResponse.json({ message: "Error", error}, {status: 500})
     }
 }

@@ -64,6 +64,7 @@ const SectionA = ({ formData, handleFormInput, handleNext, formErrors }: FormPro
         field_id="age"
         value={formData.age}
         onChange={(e) => handleFormInput(e)}
+        fieldGuide="Age format should be 'X years' or 'X years Y months"
       />
 
       <div className="my-3 flex justify-end mr-12 mb-6">

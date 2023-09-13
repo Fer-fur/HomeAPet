@@ -34,6 +34,7 @@ export const AuthProvider = ({
 
     const login = () => {
         setIsLoggedIn(true);
+        getUserEmail();
         router.push("/dashboard");
     };
 
@@ -46,6 +47,11 @@ export const AuthProvider = ({
             router.push("/login-register");
         }
     };
+
+    const getUserEmail = async() => {
+        const res = await axios.get('/api/auth_status');
+        setUser_email(res.data.user_email);
+    }
 
     useEffect(() => {
         const fetchAuthStatus = async () => {

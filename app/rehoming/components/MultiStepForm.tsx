@@ -8,6 +8,7 @@ import SectionD from "./SectionD";
 import { form_data } from "@/app/interfaces";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import DOMPurify from "dompurify";
 
 const MultiStepForm = () => {
 
@@ -55,7 +56,7 @@ const MultiStepForm = () => {
     
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name] : value,
+      [name] : DOMPurify.sanitize(value),
     }))
   };
 
@@ -109,7 +110,6 @@ const MultiStepForm = () => {
       setImage64Data(base64Data);
       setImageError('');
     } catch (error) {
-      console.error(error);
       setImageError("An error occurred while processing the image.");
     }
   };
@@ -202,8 +202,6 @@ const MultiStepForm = () => {
           owner: userData.data.userData.email,
         }));
 
-        console.log(formData);
-
         // Upload the image 
         if (image64Data) {
           // Creating a FormData object to store the image
@@ -239,9 +237,6 @@ const MultiStepForm = () => {
         // Redirect to the login page
         alert("Please login or register an account to submit a rehoming listing.");
         router.push("/login-register");
-      } else {
-        // Handle other errors as needed
-        console.error(error);
       }
     }
   } else {
@@ -254,6 +249,8 @@ const MultiStepForm = () => {
   useEffect(() => {
     if (formSubmitted) {
       setTimeout(() => {
+        // Refresh all the client components to obtain the latest data from the database.
+        router.refresh();
         // redirect to homepage after successful account registration
         router.push('/dashboard'); 
       }, 2000) // Delay 2 seconds to display success message
@@ -266,16 +263,15 @@ const MultiStepForm = () => {
   },[formSubmitted, router, formData.petImgUrl, formData.owner]);
 
   const uploadFormToDb =async () => {
-    // Now that you have updated the form data with the image URL, proceed to upload to the database
+    // Upload data to database
     try {
       const res = await axios.put('api/uploadPet', formData);
-      console.log('Rehoming form submitted successfully', res.data);
 
       // Set form submission to true to remove the form and display a success feedback for the user to view
       setFormSubmitted(true);
       setFormData(initialFormData);
     } catch (error) {
-      console.log(error);
+      return
     }
   };
 

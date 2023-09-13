@@ -1,20 +1,27 @@
 'use client';
 import axios from 'axios';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import DOMPurify from 'dompurify';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 const VolunteerSignUpForm = () => {
+
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     interests: '',
   });
+  
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: DOMPurify.sanitize(value),
     }));
   };
 
@@ -23,15 +30,27 @@ const VolunteerSignUpForm = () => {
     
     try {
       const res = await axios.put('/api/uploadVolunteer', formData);
-      console.log(res.data);
+      setFormSubmitted(true);
     } catch (error) {
       alert("You have applied already, please wait for our staffs to reach out to you and get to know you better.")
     }
-    console.log('Form data:', formData);
   };
+
+  useEffect(() => {
+    if(formSubmitted) {
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 2000) // Delay 2 seconds to display success message
+    }
+  },[formSubmitted]);
 
   return (
     <div className="w-full max-w-md mx-auto">
+      {formSubmitted ? (
+          <div className='flex justify-center items-center bg-white h-64 rounded-lg shadow-lg'> 
+            <p className=' font-poppins text-2xl font-semibold'> Form Submitted Successfully!</p>
+          </div>
+          ) : (
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
@@ -101,6 +120,7 @@ const VolunteerSignUpForm = () => {
           </button>
         </div>
       </form>
+    )}
     </div>
   );
 };

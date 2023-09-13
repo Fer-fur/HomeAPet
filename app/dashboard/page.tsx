@@ -19,9 +19,6 @@ const DashBoardPage = () => {
     const getDashBoardData = async () => {
         try {
             const res = await axios.post('/api/dashboard', {user_email: user_email});
-            console.log(res.data);
-            console.log(res.data.petAdoptionApplicationData);
-            console.log(res.data.rehomingApplicantsData);
             setAdoptionApplications(res.data.petAdoptionApplicationData);
             setRehomingApplicants(res.data.rehomingApplicantsData);
             setVolunteerStatus(res.data.volunteerApplicationData);
@@ -58,7 +55,7 @@ const DashBoardPage = () => {
                         </div>)
                         : (
                             <div className='h-32 flex items-center'>
-                                No rehoming applications.
+                                No rehoming application.
                             </div>
                         )
                         
@@ -83,7 +80,7 @@ const DashBoardPage = () => {
                         </div>)
                         : (
                             <div className='h-32 flex items-center'>
-                                No adoption applications.
+                                No adoption application.
                             </div>
                         )
                         
@@ -104,7 +101,7 @@ const DashBoardPage = () => {
                         </div>
                     ) : (
                         <div className="h-32 flex items-center">
-                            No Volunteer applications.
+                            No Volunteer application.
                         </div>
                     )}
                 </DashboardContainer>

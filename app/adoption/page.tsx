@@ -20,12 +20,11 @@ const AdoptionPage = () => {
 
             const petsData = fetchedData.data;
 
-
             setGalleryCards(petsData.requestedPets);
-            setTotalPages(Math.ceil(petsData.totalNumOfPets / 10));
+            setTotalPages(Math.ceil(petsData.totalNumOfPets / 5));
 
         } catch (error) {
-            console.log('Error fetching pets', error);
+            return
         }
     };
 
@@ -47,7 +46,7 @@ const AdoptionPage = () => {
             const petsData = searchResults.data;
 
             setGalleryCards(petsData.requestedFilteredPets);
-            setTotalPages(Math.ceil(petsData.totalNumOfFilteredPets / 10));
+            setTotalPages(Math.ceil(petsData.totalNumOfFilteredPets / 5));
 
         } catch (error) { 
             setGalleryCards([]);
@@ -104,16 +103,14 @@ const AdoptionPage = () => {
                     >
                         Previous
                     </button>
-                    
-                    {/* <span>{currentPage}</span> 
-                    <span> / </span>
-                    <span>{totalPages}</span> */}
+
                     <div className='flex justify-center items-center'>
                         {currentPage} / {totalPages} Pages
                     </div>
+
                     <button
                         disabled={currentPage === totalPages}
-                        hidden = {currentPage === 1}
+                        hidden = {currentPage === totalPages}
                         onClick={() => handlePageChange(currentPage+1)}
                         className='p-3 bg-blue-400 rounded-lg w-32 hover:translate-y-[-5px] hover:bg-blue-500 shadow-md'
                     >

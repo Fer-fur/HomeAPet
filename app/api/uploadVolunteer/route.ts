@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 export const PUT =async (req : NextRequest) => {
     
     const formData = await req.json();
-
-    console.log(formData.email);
     
     // Check if a volunteer with the same email exists
     const existingVolunteer = await prisma.volunteer.findFirst({

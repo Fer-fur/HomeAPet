@@ -1,5 +1,5 @@
 import { jwt_token_name } from "@/constants";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 import { cookies } from "next/headers";
 

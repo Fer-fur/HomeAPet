@@ -1,11 +1,56 @@
+import { jwt_token_name } from "@/constants";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from 'jsonwebtoken';
 
 export const POST = async(req : NextRequest) => {
     const reqData = await req.json();
-    const userEmail = reqData.user_email;
+    let userEmail = reqData.user_email;
 
     try {
+        // retrieve user data
+        let userData = await prisma.user.findUnique({
+            where: { email : userEmail },
+        })
+
+        // if userData / userEmail is missing, acquire the email again through the JWT
+        if (userData == null) {
+            
+            const userCookies = cookies();
+
+            const token = userCookies.get(jwt_token_name);
+
+            //Retrieve secret key for JWT 
+            const secret_key = process.env.JWT_SECRET_KEY;
+
+            if (!token) {
+                return NextResponse.json({isLoggedIn: false});
+            }
+
+            if (!secret_key) {
+                throw new Error("JWT_SECRET_KEY environment variable is not set.");
+            }
+
+            try {
+                const decodedToken = jwt.verify(token.value, secret_key);
+        
+                if (typeof decodedToken === 'object') {
+                    userEmail = decodedToken.user.email;
+                } else {
+                    throw new Error('The token is not a valid JWT token.');
+                }
+                
+            } catch (error) {
+                return NextResponse.json({isLoggedIn: false});
+            }
+
+            // retrieve user data again
+            userData = await prisma.user.findUnique({
+                where: { email : userEmail },
+            })
+        }
+
         // retrieve adoption data
         const adoptApplications = await prisma.adoptionApplication.findMany({
             where: { applicant_email : userEmail },
@@ -20,11 +65,6 @@ export const POST = async(req : NextRequest) => {
             petName : application.pet.name,
             petBreed : application.pet.breed,
         }));
-
-        // retrieve user data
-        const userData = await prisma.user.findUnique({
-            where: { email : userEmail },
-        })
 
         // Using user_id to retrieve the user's listed pets
         const petsData = await prisma.pet.findMany({
@@ -57,7 +97,6 @@ export const POST = async(req : NextRequest) => {
         return NextResponse.json({message: "Success", petAdoptionApplicationData, rehomingApplicantsData, volunteerApplicationData}, {status: 200})
 
     } catch (error) {
-        console.log(error);
         return NextResponse.json({error : error}, {status: 500});
     }
 }

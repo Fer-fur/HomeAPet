@@ -38,9 +38,11 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^10.4.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie": "^0.5.1",
     "@types/dompurify": "^3.0.2",
-    "@types/jsonwebtoken": "^9.0.2"
+    "@types/jsonwebtoken": "^9.0.2",
+    "prisma-erd-generator": "^1.11.1"
   }
 }

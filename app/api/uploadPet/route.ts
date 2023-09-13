@@ -54,8 +54,8 @@ export const PUT = async( req: NextRequest) => {
         }
         
     } catch (error) {
-        console.log(error);
         // if user is not logged in, redirect user to login/register page 
+        
         // Obtain the current URL
         const currentURL = String(req.nextUrl);
         // Remove the pathnames behind the current domain

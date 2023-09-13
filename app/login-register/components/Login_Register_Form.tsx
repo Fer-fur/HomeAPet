@@ -1,8 +1,9 @@
 'use client';
-import { useState, MouseEvent, FormEvent, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/contexts/AuthContext';
+import DOMPurify from 'dompurify';
 
 interface FormData {
   username: string;
@@ -45,20 +46,16 @@ const Login_Register_Form = () => {
       // Handles Login data
       try {
         const result = await axios.post('api/login', formData);
-        console.log('Login submitted successfully', result.data);
         login();
 
       } catch (error: any) {
         if (error.response && error.response.data && error.response.data.error) {
           setErrorMessage(error.response.data.error);
-        } else {
-          console.error('Error logging in:', error);
-        }
+        } 
+        return
       }
 
     }else {
-      // Handles Register data
-      
       // Password & confirm password checker
       if (formData.password != formData.confirmPassword) {
         setPasswordMatch(false);
@@ -74,9 +71,8 @@ const Login_Register_Form = () => {
       } catch (error: any) {
         if (error.response && error.response.data && error.response.data.error) {
           setErrorMessage(error.response.data.error);
-        } else {
-          console.error('Error logging in:', error);
-        }
+        } 
+          return
       }
     }
   };
@@ -86,7 +82,7 @@ const Login_Register_Form = () => {
     
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name] : value,
+      [name] : DOMPurify.sanitize(value),
     }))
   }
 
@@ -102,12 +98,14 @@ const Login_Register_Form = () => {
     <div className="w-full max-w-md mx-auto">
       {registerSuccess ? (
           <div className='flex justify-center items-center bg-white h-64 rounded-lg shadow-lg'> 
-            <p className=' font-poppins text-2xl font-semibold'> Account Created Successfully!</p>
+            <p className=' font-poppins text-2xl font-semibold'> 
+            Account Created Successfully!
+          </p>
           </div>
           ) :(
       <div>
         <div className="flex">
-          {/* Tab buttons */}
+          {/* Login / Register tabs */}
           <button
             className={`font-poppins font-semibold text-3xl ${
               activeTab === 'login' ? 'bg-white' : 'bg-gray-200 text-gray-700 '

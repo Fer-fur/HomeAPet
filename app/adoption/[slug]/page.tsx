@@ -68,7 +68,7 @@ const AdoptionPetInfoPage = () => {
             const petDataResults = await axios.get(`/api/petByID?pet_id=${petID}`);
             setPetData(petDataResults.data.requestedPet);
           } catch (error) {
-            console.log(error);
+            return
           }
         };
     
@@ -170,6 +170,7 @@ const AdoptionPetInfoPage = () => {
             </div>
         </div>
         {/* Pet promotional banner section */}
+        
         {petData && (
             <PetCarousel species={petData.species} />
         )}

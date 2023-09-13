@@ -99,7 +99,7 @@ export const aboutUs_card_content = [
         title: 'Our Partners',
         subtitle: 'We partnered with local reputable animal shelters to provide the latest updates on responsible pet ownership and proper animal care articles for pet owners to learn from.',
         extra_subtitle: 'We are always looking for volunteers to partner with us to help us conduct home visits to advise and ensure that the newly adopted pets are adapting comfortably to their new home.',
-        img_src: "/partners-photo.jpg",
+        img_src: "/partners.jpg",
         img_alt: "Partnership Photo",
     },
 ]

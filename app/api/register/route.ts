@@ -20,6 +20,7 @@ export const PUT = async (req: NextRequest) => {
         const saltRounds = 10;
         const hashPassword = await bcrypt.hash(formData.password, saltRounds); 
 
+        // Uploading user details to database
         const newUser = await prisma.user.create({
             data: {
                 email: formData.email,
@@ -41,6 +42,8 @@ export const PUT = async (req: NextRequest) => {
         const payload = { user: {
                                 email: newUser.email,
         }}
+        
+        // generating the JWT's value and setting the expiry time to 1 day
         const token = jwt.sign( payload,
                             secret_key,
                             {expiresIn: '1d'});

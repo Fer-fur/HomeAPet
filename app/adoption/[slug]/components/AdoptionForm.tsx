@@ -34,10 +34,11 @@ const AdoptionForm = ( {pet_id} : AdoptionFormProps) => {
     const handleSubmit = async(e: React.FormEvent) => {
         // Prevent the default form submission behavior
         e.preventDefault(); 
-        // form submission logic here
+
+        // upload formData to database
         try {
-            console.log(formData);
             const res = await axios.put('/api/uploadAdoption', formData);
+            router.refresh();
             router.push('/dashboard');
         } catch (error : any) {
             if (error.response.status === 404) {

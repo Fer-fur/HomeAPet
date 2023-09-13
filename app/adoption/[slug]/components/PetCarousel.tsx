@@ -27,8 +27,6 @@ const PetCarousel = ( petSpecies : PetCarouselProps) => {
     }
 
     useEffect(() => {
-        console.log("test");
-        console.log(petSpecies.species);
         fetchCarouselData(petSpecies.species);
     } , [])
 
