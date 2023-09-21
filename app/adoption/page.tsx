@@ -1,6 +1,5 @@
 'use client';
 import { SearchCard } from '@/components';
-import { GalleryCard } from '@/link_webContent';
 import Link from 'next/link';
 import SearchBar from './components/SearchBar';
 import { useState, useEffect } from 'react';
@@ -79,7 +78,6 @@ const AdoptionPage = () => {
                             pathname: `/adoption/${pet.pet_id}`,
                             query: { pet_id: pet.pet_id },
                         }}
-                        // as={`/adoption/${pet.pet_id}`}
                         >
                         <SearchCard
                             img_src={pet.petURL}

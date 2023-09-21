@@ -1,4 +1,4 @@
-import { aboutUs_card_content } from '@/link_webContent'
+import { aboutUs_card_content } from '@/constants'
 import AboutUsCard from './AboutUsCard';
 import { Header } from '../../components';
 

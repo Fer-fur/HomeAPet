@@ -1,4 +1,4 @@
-import { feature_card_content } from "@/link_webContent";
+import { feature_card_content } from "@/constants";
 import FeatureCard from "./FeatureCard";
 import { Header } from "@/components";
 

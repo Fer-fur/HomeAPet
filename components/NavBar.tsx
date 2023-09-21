@@ -4,7 +4,7 @@ import {useState} from 'react';
 import { HiMenu } from 'react-icons/hi';
 import { RxCross2 } from 'react-icons/rx';
 import { CustomButton } from '.';
-import { navbar_links } from '@/link_webContent';
+import { navbar_links } from '@/constants';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 

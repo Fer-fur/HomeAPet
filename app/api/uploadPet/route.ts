@@ -47,8 +47,6 @@ export const PUT = async( req: NextRequest) => {
                 
                 return NextResponse.json({message: "Success: ", }, {status: 201})
             } catch (error) {
-                // Handle the error here
-                console.error("Error:", error);
                 return NextResponse.json({ message: "Error", error}, {status: 500})
             }
         }

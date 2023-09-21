@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { feature_card_content } from '@/link_webContent';
+import { feature_card_content } from '@/constants';
 
 interface FeatureCardProps {
     icon_src : string;

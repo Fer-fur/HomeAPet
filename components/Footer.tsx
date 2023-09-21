@@ -1,4 +1,4 @@
-import { footer_links } from '@/link_webContent'
+import { footer_links } from '@/constants'
 import Link from 'next/link'
 
 const Footer = () => {

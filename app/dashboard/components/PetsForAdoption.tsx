@@ -1,5 +1,5 @@
 'use client';
-import { GalleryCard } from "@/link_webContent";
+import { GalleryCard } from "@/constants";
 import { useEffect, useState } from "react";
 
 

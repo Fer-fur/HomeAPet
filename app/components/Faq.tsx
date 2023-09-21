@@ -1,5 +1,5 @@
 'use client';
-import { FAQ_content } from '@/link_webContent';
+import { FAQ_content } from '@/constants';
 import FaqCard from './FaqCard';
 import { Header } from '../../components';
 

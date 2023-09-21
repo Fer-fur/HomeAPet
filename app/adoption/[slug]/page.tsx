@@ -169,8 +169,6 @@ const AdoptionPetInfoPage = () => {
                 </div>
             </div>
         </div>
-        {/* Pet promotional banner section */}
-        
         {petData && (
             <PetCarousel species={petData.species} />
         )}
