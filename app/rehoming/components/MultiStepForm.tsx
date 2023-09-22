@@ -121,7 +121,7 @@ const MultiStepForm = () => {
   
       reader.onload = (event) => {
         if (event.target && typeof event.target.result === "string") {
-          resolve(event.target.result.split(',')[1]); // Extract base64 data from data URL
+          resolve(event.target.result.split(',')[1]); // Extract base64 data
         } else {
           reject(new Error("Failed to read image data."));
         }
